@@ -1,4 +1,6 @@
 import express from 'express';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import cors from 'cors';
 import { getDb } from './db/index.js';
 
@@ -12,7 +14,7 @@ import settingsRouter from './routes/settings.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const HOST = process.env.HOST || '127.0.0.1';
+const HOST = process.env.HOST || '0.0.0.0';
 
 // Restrict CORS to local development origin
 const allowedOrigins = [
@@ -54,6 +56,19 @@ app.use('/api/summary', summaryRouter);
 app.use('/api/ai', aiRouter);
 app.use('/api/demo', demoRouter);
 app.use('/api/settings', settingsRouter);
+
+// Serve the production React frontend from the same origin.
+const serverDir = path.dirname(fileURLToPath(import.meta.url));
+const clientDist = path.resolve(serverDir, '../../client/dist');
+app.use(express.static(clientDist));
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.path.startsWith('/api/')) {
+    return res.sendFile(path.join(clientDist, 'index.html'), (err) => {
+      if (err) next(err);
+    });
+  }
+  next();
+});
 
 // Centralized error handler
 app.use((err, req, res, next) => {
