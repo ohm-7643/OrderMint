@@ -1,0 +1,16 @@
+{
+  "name": "ordermint",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "dev": "node scripts/dev.js",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "test": "npm test --prefix server",
+    "eval": "node server/src/eval/run.js",
+    "seed": "node server/src/db/seed.js"
+  }
+}

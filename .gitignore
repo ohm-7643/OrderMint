@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Production builds
+dist/
+*/dist/
+
+# SQLite databases & sidecars
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+data/*.db
+data/*.db-wal
+data/*.db-shm
+server/data/*.db
+server/data/*.db-wal
+server/data/*.db-shm
+
+# Environment secrets
+.env
+.env.local
+*.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# System files
+.DS_Store
+
+# Local models
+models/
+*.gguf
+*.bin
